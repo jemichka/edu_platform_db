@@ -11,6 +11,10 @@ const sequelize = new Sequelize(
     port: dbConfig.PORT,
     dialect: dbConfig.dialect,
 
+    define: {
+      underscored: true,  
+    },
+
     pool: {
       max: dbConfig.pool.max,
       min: dbConfig.pool.min,
@@ -49,10 +53,6 @@ db.events = require("./events.model.js")(sequelize, Sequelize);
 
 // event participants
 db.eventParticipants = require("./eventParticipant.model.js")(sequelize, Sequelize);
-
-/*
-  ASSOCIATIONS
-*/
 
 // USER → COURSES (teacher)
 db.users.hasMany(db.courses, {
@@ -144,9 +144,7 @@ db.eventParticipants.belongsTo(db.users, {
   as: "user",
 });
 
-/*
-  DB CONNECTION CHECK
-*/
+/* DB CONNECTION CHECK */
 sequelize
   .authenticate()
   .then(() => {

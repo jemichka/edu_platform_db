@@ -35,7 +35,13 @@ module.exports = (sequelize, Sequelize) => {
     }
   }, {
     tableName: "enrollments",
-    timestamps: false
+    timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ["user_id", "course_id"]
+      }
+    ]
   });
 
   return Enrollment;

@@ -1,6 +1,10 @@
-FROM node:18.18-alpine 
+FROM node:18.18-alpine
+
 WORKDIR /EduPlatform
-COPY package.json . 
-RUN npm install 
-COPY . . 
-CMD npm start
+
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY . .
+
+CMD ["npm", "start"]

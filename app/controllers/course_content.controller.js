@@ -1,12 +1,16 @@
 const db = require("../models");
-const Content = db.course_content;
+const Content = db.courseContent;
 
 /**
  * CREATE
  */
 exports.create = (req, res) => {
+  if (!req.body.course_id) {
+    return res.status(400).send({ message: "course_id is required" });
+  }
+
   Content.create(req.body)
-    .then(data => res.send(data))
+    .then(data => res.status(201).send(data))
     .catch(err => res.status(500).send({ message: err.message }));
 };
 

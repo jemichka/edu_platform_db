@@ -4,6 +4,9 @@ const { Sequelize } = db;
 
 const handleError = (res, err, message = "Server error") => {
   console.error(err);
+  if (err.name === "SequelizeUniqueConstraintError") {
+    return res.status(409).send({ message: "User is already added to this event", error: err.message });
+  }
   return res.status(500).send({ message, error: err.message });
 };
 
@@ -11,6 +14,17 @@ exports.create = async (req, res) => {
   try {
     if (!req.body.event_id || !req.body.user_id) {
       return res.status(400).send({ message: "event_id and user_id are required" });
+    }
+
+    const existing = await Participant.findOne({
+      where: {
+        event_id: req.body.event_id,
+        user_id: req.body.user_id,
+      },
+    });
+
+    if (existing) {
+      return res.status(409).send({ message: "User is already added to this event" });
     }
 
     const data = await Participant.create(req.body);

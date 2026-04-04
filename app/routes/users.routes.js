@@ -6,15 +6,32 @@ module.exports = (app) => {
    * @swagger
    * tags:
    *   name: Users
-   *   description: Управление пользователями
+   *   description: User management
    */
 
   /**
    * @swagger
    * /api/users:
    *   post:
-   *     summary: Создать пользователя
+   *     summary: Create a user
    *     tags: [Users]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/UserCreateInput'
+   *     responses:
+   *       201:
+   *         description: Created user
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
+   *       400:
+   *         description: Validation error
+   *       409:
+   *         description: Email already exists
    */
   router.post("/", users.create);
 
@@ -22,8 +39,17 @@ module.exports = (app) => {
    * @swagger
    * /api/users:
    *   get:
-   *     summary: Получить всех пользователей
+   *     summary: Get all users
    *     tags: [Users]
+   *     responses:
+   *       200:
+   *         description: Users list
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/User'
    */
   router.get("/", users.findAll);
 
@@ -31,8 +57,24 @@ module.exports = (app) => {
    * @swagger
    * /api/users/{id}:
    *   get:
-   *     summary: Получить пользователя по ID
+   *     summary: Get user by id
    *     tags: [Users]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *           format: uuid
+   *     responses:
+   *       200:
+   *         description: User found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
+   *       404:
+   *         description: User not found
    */
   router.get("/:id", users.findOne);
 
@@ -40,8 +82,30 @@ module.exports = (app) => {
    * @swagger
    * /api/users/{id}:
    *   put:
-   *     summary: Обновить пользователя
+   *     summary: Update user by id
    *     tags: [Users]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *           format: uuid
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/UserUpdateInput'
+   *     responses:
+   *       200:
+   *         description: Update result
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/MessageResponse'
+   *       404:
+   *         description: User not found
    */
   router.put("/:id", users.update);
 
@@ -49,8 +113,24 @@ module.exports = (app) => {
    * @swagger
    * /api/users/{id}:
    *   delete:
-   *     summary: Удалить пользователя
+   *     summary: Delete user by id
    *     tags: [Users]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *           format: uuid
+   *     responses:
+   *       200:
+   *         description: Delete result
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/MessageResponse'
+   *       404:
+   *         description: User not found
    */
   router.delete("/:id", users.delete);
 
@@ -58,7 +138,7 @@ module.exports = (app) => {
    * @swagger
    * /api/users/domain/{domain}:
    *   get:
-   *     summary: Получить пользователей по домену электронной почты
+   *     summary: Get users by email domain
    *     tags: [Users]
    *     parameters:
    *       - in: path
@@ -67,6 +147,29 @@ module.exports = (app) => {
    *         schema:
    *           type: string
    *         example: gmail.com
+   *     responses:
+   *       200:
+   *         description: Users list filtered by domain
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: string
+   *                     format: uuid
+   *                   email:
+   *                     type: string
+   *                     format: email
+   *                   fullName:
+   *                     type: string
+   *                   role:
+   *                     type: string
+   *                   createdAt:
+   *                     type: string
+   *                     format: date-time
    */
   router.get("/domain/:domain", users.findByEmailDomain);
 

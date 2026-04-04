@@ -1,117 +1,125 @@
-<<<<<<< HEAD
-# 📘 EduPlatform
+# EduPlatform
 
-EduPlatform — это современная веб-платформа для организации профессиональных курсов и семинаров.  
-Платформа объединяет преподавателей и студентов в едином образовательном пространстве и обеспечивает:
+EduPlatform - это backend на Node.js и Express для управления образовательными курсами, учебным контентом, записями на курсы, событиями и участниками событий.
+Проект использует PostgreSQL через Sequelize и предоставляет Swagger-документацию для API.
 
-* управление курсами и мероприятиями
-* регистрацию пользователей и зачисление на курсы
-* участие в событиях (events)
-* хранение структуры обучения и прогресса студентов
+Проект решает задачу централизованного управления образовательными процессами:
 
-## 🎯 Цель проекта
+- управление курсами и их содержимым
+- учет студентов и их записей
+- организация событий и участников
+- получение аналитики (например, количество студентов на курсах)
 
-Упростить организацию образовательного процесса и обеспечить централизованное управление обучением, расписанием и участниками курсов.
+Ценность проекта:
 
-## 💡 Ценность
+- демонстрирует полноценный REST API
+- включает работу с реляционной БД (PostgreSQL)
+- использует ORM (Sequelize)
+- поддерживает документирование API через Swagger
+- готов к контейнеризации (Docker)
 
-* прозрачное управление обучением
-* масштабируемая backend-архитектура
-* поддержка ролей пользователей (student / teacher / admin)
-* возможность расширения под LMS-систему
+## Инструкции по установке
 
----
+Требования:
+- Node.js 18+
+- PostgreSQL 15
+- Docker
 
-## ⚙️ Installation Instructions
-
-### 📦 1. Клонирование проекта
-
+Установка:
+1. Клонируй репозиторий:
 ```bash
-git clone https://github.com/your-username/eduplatform.git
-cd eduplatform
+git clone <your-repo-url>
+cd EduPlatform
+```
+2. Установи зависимости:
+```bash
+npm install
+```
+3. Создай .env файл (опционально):
+```env
+PORT=8080
+DB_HOST=localhost
+DB_PORT=5433
+DB_NAME=EduPlatform
+DB_USER=EduPlatform
+DB_PASSWORD=1111
+```
+4. Запуск через Docker 
+```bash
+docker compose up --build
+```
 
-📦 2. Установка зависимостей
-Bashnpm install
-🐳 3. Запуск через Docker (рекомендуется)
-Bashdocker compose up --build
-🗄️ 4. Переменные окружения (.env)
-Создай .env файл:
-envDB_HOST=db
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_NAME=eduplatform
-DB_PORT=5432
-PORT=3000
-🚀 5. Запуск без Docker (опционально)
-Bashnpm start
+После запуска:
+- API: http://localhost:8080
+- Swagger: http://localhost:8080/api-docs
 
-🧪 Usage
-📌 Базовый запуск API
-После запуска сервер доступен:
-Bashhttp://localhost:3000
-📌 Пример использования API (Users)
-JavaScriptconst axios = require("axios");
+## Использование
 
-axios.post("http://localhost:3000/api/users", {
-  email: "test@mail.com",
-  password_hash: "hashed_password",
-  full_name: "John Doe",
-  role: "student"
-});
-📌 Получение событий
-JavaScriptaxios.get("http://localhost:3000/api/events").then(res => {
-  console.log(res.data);
-});
-📌 Swagger документация
-texthttp://localhost:3000/api-docs
+Пример подключения:
+```js
+const axios = require('axios');
 
-🤝 Contributing
-Проект открыт для улучшений.
-Как внести вклад:
+axios.get('http://localhost:8080/api/users')
+  .then(res => console.log(res.data));
+```
+Основные эндпоинты:
+- Получить пользователей:
+  ```GET /api/users```
+- Поиск по домену:
+  ```GET /api/users/domain/:domain```
+- Курсы с преподавателями:
+  ```GET /api/courses/with-teacher```
+- Контент курса:
+  ```GET /api/content/course/:course_id```
+- Статистика записей:
+  ```GET /api/enrollments/stats/count-by-course```
+- События по датам:
+  ```GET /api/events/by-date?start_date=...&end_date=...```
+- Участники события:
+  ```GET /api/participants/event/:event_id```
 
-Сделайте fork репозитория
-Создайте feature-ветку:
+Swagger
+Документация API доступна по адресу: /api-docs
 
-Bashgit checkout -b feature/new-feature
+## Вклад
 
-Сделайте commit:
+Если вы хотите внести вклад в проект:
+1. Сделайте fork репозитория
+2. Создайте новую ветку:
+```bash 
+git checkout -b feature/your-feature
+```
+3. Внесите изменения и закоммитьте:
+```bash 
+git commit -m "Add new feature"
+```
+4. Отправьте изменения:
+```bash 
+git push origin feature/your-feature
+```
+5. Создайте Pull Request
 
-Bashgit commit -m "Add new feature"
+## Документация
 
-Отправьте Pull Request
+- Swagger UI: /api-docs
+- API построено по REST-принципам
+- Используется Sequelize для работы с БД
 
+## Лицензия
 
-📚 Documentation
-Проект использует:
-
-Express.js — backend framework
-Sequelize — ORM для PostgreSQL
-PostgreSQL — база данных
-Swagger — документация API
-Docker — контейнеризация
-
-API документация:
-text/api-docs
-
-📜 License
 Этот проект распространяется под лицензией MIT.
-textMIT License
+Вы можете свободно использовать, изменять и распространять его с указанием авторства.
 
-📞 Contact Information
-Автор: Джемиле
+## Контактная информация
+Если у вас есть вопросы или предложения:
+GitHub: https://github.com/jemichka
 
-GitHub: (добавь свой username)
-Email: (если хочешь — добавь)
-Telegram: (опционально)
+## Благодарности
+Проект использует следующие технологии:
 
-
-🙏 Acknowledgments
-Проект использует open-source технологии:
-
-Express.js community
-Sequelize ORM
-PostgreSQL
-Swagger UI
-Docker ecosystem
-
-text
+- Node.js
+- Express
+- PostgreSQL
+- Sequelize
+- Swagger UI Express
+- Docker

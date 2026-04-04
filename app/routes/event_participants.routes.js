@@ -6,15 +6,30 @@ module.exports = (app) => {
    * @swagger
    * tags:
    *   name: EventParticipants
-   *   description: Управление участниками мероприятия
+   *   description: Event participant management
    */
 
   /**
    * @swagger
    * /api/participants:
    *   post:
-   *     summary: Создать участника
+   *     summary: Create event participant
    *     tags: [EventParticipants]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/EventParticipantCreateInput'
+   *     responses:
+   *       201:
+   *         description: Created participant
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/EventParticipant'
+   *       409:
+   *         description: Duplicate participant
    */
   router.post("/", participants.create);
 
@@ -22,8 +37,17 @@ module.exports = (app) => {
    * @swagger
    * /api/participants:
    *   get:
-   *     summary: Получить всех участников
+   *     summary: Get all event participants
    *     tags: [EventParticipants]
+   *     responses:
+   *       200:
+   *         description: Participants list
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/EventParticipant'
    */
   router.get("/", participants.findAll);
 
@@ -31,7 +55,7 @@ module.exports = (app) => {
    * @swagger
    * /api/participants/event/{event_id}:
    *   get:
-   *     summary: Получить участников по событиям с помощью адресов электронной почты 
+   *     summary: Get participants by event id with user emails
    *     tags: [EventParticipants]
    *     parameters:
    *       - in: path
@@ -39,6 +63,16 @@ module.exports = (app) => {
    *         required: true
    *         schema:
    *           type: string
+   *           format: uuid
+   *     responses:
+   *       200:
+   *         description: Participants for event
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/EventParticipantWithEmail'
    */
   router.get("/event/:event_id", participants.findByEventWithUsersRaw);
 
@@ -46,8 +80,24 @@ module.exports = (app) => {
    * @swagger
    * /api/participants/{id}:
    *   get:
-   *     summary: Получить участника по ID
+   *     summary: Get event participant by id
    *     tags: [EventParticipants]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *           format: uuid
+   *     responses:
+   *       200:
+   *         description: Participant found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/EventParticipant'
+   *       404:
+   *         description: Participant not found
    */
   router.get("/:id", participants.findOne);
 
@@ -55,8 +105,30 @@ module.exports = (app) => {
    * @swagger
    * /api/participants/{id}:
    *   put:
-   *     summary: Обновить участника
+   *     summary: Update event participant by id
    *     tags: [EventParticipants]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *           format: uuid
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/EventParticipantCreateInput'
+   *     responses:
+   *       200:
+   *         description: Update result
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/MessageResponse'
+   *       404:
+   *         description: Participant not found
    */
   router.put("/:id", participants.update);
 
@@ -64,8 +136,24 @@ module.exports = (app) => {
    * @swagger
    * /api/participants/{id}:
    *   delete:
-   *     summary: Удалить участника
+   *     summary: Delete event participant by id
    *     tags: [EventParticipants]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *           format: uuid
+   *     responses:
+   *       200:
+   *         description: Delete result
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/MessageResponse'
+   *       404:
+   *         description: Participant not found
    */
   router.delete("/:id", participants.delete);
 

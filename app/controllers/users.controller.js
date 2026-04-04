@@ -3,8 +3,24 @@ const User = db.users;
 const sequelize = db.sequelize;
 const { Sequelize } = db;
 
+const sanitizeUser = (user) => {
+  const values = user && typeof user.get === "function" ? user.get({ plain: true }) : user;
+  if (!values) {
+    return values;
+  }
+
+  const { password_hash, ...safeUser } = values;
+  return safeUser;
+};
+
 const handleError = (res, err, message = "Server error") => {
   console.error(err);
+  if (err.name === "SequelizeUniqueConstraintError") {
+    return res.status(409).send({
+      message: "User with this email already exists",
+      error: err.message,
+    });
+  }
   return res.status(500).send({
     message,
     error: err.message,
@@ -25,7 +41,7 @@ exports.create = async (req, res) => {
     }
 
     const user = await User.create(req.body);
-    return res.status(201).send(user);
+    return res.status(201).send(sanitizeUser(user));
   } catch (err) {
     return handleError(res, err);
   }
@@ -54,7 +70,7 @@ exports.findOne = async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    return res.send(user);
+    return res.send(sanitizeUser(user));
   } catch (err) {
     return handleError(res, err);
   }

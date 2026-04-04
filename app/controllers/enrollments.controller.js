@@ -9,9 +9,26 @@ exports.create = (req, res) => {
     return res.status(400).send({ message: "user_id and course_id required" });
   }
 
-  Enrollment.create(req.body)
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send({ message: err.message }));
+  Enrollment.findOne({
+    where: {
+      user_id: req.body.user_id,
+      course_id: req.body.course_id,
+    },
+  })
+    .then(existing => {
+      if (existing) {
+        return res.status(409).send({ message: "User is already enrolled in this course" });
+      }
+
+      return Enrollment.create(req.body).then(data => res.status(201).send(data));
+    })
+    .catch(err => {
+      if (err.name === "SequelizeUniqueConstraintError") {
+        return res.status(409).send({ message: "User is already enrolled in this course" });
+      }
+
+      return res.status(500).send({ message: err.message });
+    });
 };
 
 /**
@@ -69,7 +86,7 @@ exports.getStudentsCountByCourseRaw = async (req, res) => {
     const query = `
       SELECT 
         e.course_id,
-        COUNT(e.user_id) AS students_count
+        COUNT(DISTINCT e.user_id) AS students_count
       FROM enrollments e
       ${courseId ? "WHERE e.course_id = :course_id" : ""}
       GROUP BY e.course_id

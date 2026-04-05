@@ -37,12 +37,13 @@ npm install
 ```
 3. Создай .env файл (опционально):
 ```env
-PORT=8080
-DB_HOST=localhost
-DB_PORT=5433
-DB_NAME=EduPlatform
-DB_USER=EduPlatform
-DB_PASSWORD=1111
+POSTGRESDB_USER=postgres 
+POSTGRESDB_ROOT_PASSWORD=1111 
+POSTGRESDB_DATABASE=EduPlatform 
+POSTGRESDB_LOCAL_PORT=5432 
+POSTGRESDB_DOCKER_PORT=5433 
+NODE_LOCAL_PORT=6868 
+NODE_DOCKER_PORT=8080 
 ```
 4. Запуск через Docker 
 ```bash

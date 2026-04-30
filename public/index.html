@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduPlatform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="home">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-badge">EP</span>
+          <span>
+            <strong>EduPlatform</strong>
+            <small>Образовательная платформа</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a class="active" href="/">Главная</a>
+          <a href="/users">Пользователи</a>
+          <a href="/courses">Обучение</a>
+          <a href="/events">События</a>
+          <a href="/queries">Запросы</a>
+        </nav>
+        <a class="swagger-link" href="/api-docs" target="_blank" rel="noreferrer">Swagger</a>
+      </header>
+
+      <main class="layout">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Единая цифровая среда обучения</p>
+            <h1>Курсы, преподаватели, события и прогресс студентов в одном пространстве</h1>
+            <p class="hero-text">
+              EduPlatform помогает собирать учебный процесс в одном месте: управлять
+              участниками, публиковать материалы, вести набор на курсы и планировать
+              события. Верхняя навигация ведёт по основным разделам платформы, а Swagger
+              остаётся доступным для детальной работы с API.
+            </p>
+            <div class="hero-actions">
+              <a class="primary-button" href="/courses">Открыть каталог обучения</a>
+              <button class="secondary-button" id="refresh-dashboard" type="button">Обновить показатели</button>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <article class="stat-card">
+              <span>Пользователи</span>
+              <strong data-stat="users">...</strong>
+            </article>
+            <article class="stat-card">
+              <span>Курсы</span>
+              <strong data-stat="courses">...</strong>
+            </article>
+            <article class="stat-card">
+              <span>Контент</span>
+              <strong data-stat="content">...</strong>
+            </article>
+            <article class="stat-card">
+              <span>Записи</span>
+              <strong data-stat="enrollments">...</strong>
+            </article>
+            <article class="stat-card">
+              <span>События</span>
+              <strong data-stat="events">...</strong>
+            </article>
+            <article class="stat-card">
+              <span>Участники</span>
+              <strong data-stat="participants">...</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="story-grid">
+            <article class="story-card">
+              <p class="eyebrow">Для студентов</p>
+              <h2>Прозрачный путь обучения</h2>
+              <p>Студенты видят доступные курсы, получают материалы по модулям и отслеживают собственный прогресс.</p>
+            </article>
+            <article class="story-card">
+              <p class="eyebrow">Для преподавателей</p>
+              <h2>Контент и расписание под контролем</h2>
+              <p>Преподаватели могут вести программы, публиковать уроки, назначать события и собирать аудиторию.</p>
+            </article>
+            <article class="story-card">
+              <p class="eyebrow">Для администраторов</p>
+              <h2>Единая картина по платформе</h2>
+              <p>Администраторы работают с пользователями, записями, посещаемостью и аналитикой без лишних переключений.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="cards-grid">
+            <a class="nav-card" href="/users">
+              <p class="eyebrow">Участники платформы</p>
+              <h2>Пользователи</h2>
+              <p>Студенты, преподаватели и администраторы: регистрация, роли и быстрый поиск по почтовым доменам.</p>
+            </a>
+            <a class="nav-card" href="/courses">
+              <p class="eyebrow">Учебная экосистема</p>
+              <h2>Курсы и контент</h2>
+              <p>Программы обучения, модули, уроки и зачисления студентов на курсы в одном разделе.</p>
+            </a>
+            <a class="nav-card" href="/events">
+              <p class="eyebrow">Коммуникация и активность</p>
+              <h2>События и участники</h2>
+              <p>Вебинары, интенсивы, встречи и списки участников для каждого события платформы.</p>
+            </a>
+            <a class="nav-card" href="/queries">
+              <p class="eyebrow">Аналитика и выборки</p>
+              <h2>Специальные запросы</h2>
+              <p>Быстрые срезы по датам, преподавателям, составу курсов и активности пользователей.</p>
+            </a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

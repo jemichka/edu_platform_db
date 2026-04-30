@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduPlatform - Обучение</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="courses">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-badge">EP</span>
+          <span>
+            <strong>EduPlatform</strong>
+            <small>Образовательная платформа</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a href="/">Главная</a>
+          <a href="/users">Пользователи</a>
+          <a class="active" href="/courses">Обучение</a>
+          <a href="/events">События</a>
+          <a href="/queries">Запросы</a>
+        </nav>
+        <a class="swagger-link" href="/api-docs" target="_blank" rel="noreferrer">Swagger</a>
+      </header>
+
+      <main class="layout">
+        <section class="section resource-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Программы и траектории</p>
+              <h1 class="page-title">Курсы</h1>
+            </div>
+            <button class="ghost-button" type="button" data-action="list-courses">Обновить каталог</button>
+          </div>
+          <div class="page-intro panel intro-panel">
+            <p>
+              Раздел обучения объединяет каталог курсов, наполнение по модулям и зачисление студентов.
+              Здесь можно управлять как образовательными программами, так и тем, кто проходит обучение.
+            </p>
+          </div>
+          <div class="resource-grid">
+            <form class="panel form-panel" data-resource-form="courses">
+              <div class="panel-title">
+                <h3>Паспорт курса</h3>
+                <p>Для нового курса обязательны название программы и преподаватель.</p>
+              </div>
+              <label>ID<input name="id" placeholder="UUID курса" /></label>
+              <label>Название<input name="title" placeholder="Аналитика данных для начинающих" /></label>
+              <label>Описание<textarea name="description" rows="4" placeholder="Кратко опишите цель курса и ожидаемый результат"></textarea></label>
+              <label>Teacher ID<input name="teacher_id" placeholder="UUID преподавателя" /></label>
+              <div class="form-actions">
+                <button type="button" data-submit="create">Открыть курс</button>
+                <button type="button" data-submit="get">Загрузить курс</button>
+                <button type="button" data-submit="update">Обновить курс</button>
+                <button type="button" data-submit="delete" class="danger">Архивировать</button>
+              </div>
+            </form>
+
+            <div class="panel output-panel">
+              <div class="panel-title">
+                <h3>Результат действия</h3>
+                <p>Ответ сервера по созданию, обновлению или загрузке курса.</p>
+              </div>
+              <pre data-output="courses">Здесь появится информация о выбранном курсе или результате изменения каталога.</pre>
+            </div>
+
+            <div class="panel table-panel full-span">
+              <div class="panel-title">
+                <h3>Каталог курсов</h3>
+                <p>Все программы обучения, доступные на платформе.</p>
+              </div>
+              <div class="table-wrap" data-table="courses"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section resource-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Материалы и уроки</p>
+              <h2>Контент курсов</h2>
+            </div>
+            <button class="ghost-button" type="button" data-action="list-content">Обновить материалы</button>
+          </div>
+          <div class="resource-grid">
+            <form class="panel form-panel" data-resource-form="content">
+              <div class="panel-title">
+                <h3>Учебный материал</h3>
+                <p>Укажите курс, к которому относится модуль или урок.</p>
+              </div>
+              <label>ID<input name="id" placeholder="UUID элемента" /></label>
+              <label>Course ID<input name="course_id" placeholder="UUID курса" /></label>
+              <label>Заголовок<input name="title" placeholder="Введение в тему" /></label>
+              <label>Содержимое<textarea name="content" rows="4" placeholder="Текст урока, модуля или краткий конспект"></textarea></label>
+              <label>Video URL<input name="video_url" placeholder="https://..." /></label>
+              <label>Позиция<input name="position" type="number" min="0" placeholder="1" /></label>
+              <label>
+                Тип
+                <select name="type">
+                  <option value="">Не указано</option>
+                  <option value="module">module</option>
+                  <option value="lesson">lesson</option>
+                </select>
+              </label>
+              <div class="form-actions">
+                <button type="button" data-submit="create">Добавить материал</button>
+                <button type="button" data-submit="get">Открыть материал</button>
+                <button type="button" data-submit="update">Обновить материал</button>
+                <button type="button" data-submit="delete" class="danger">Удалить материал</button>
+              </div>
+            </form>
+
+            <div class="panel output-panel">
+              <div class="panel-title">
+                <h3>Результат действия</h3>
+                <p>Ответ сервера по контенту курса, урокам и модулям.</p>
+              </div>
+              <pre data-output="content">После действий с материалами здесь появится структурированный ответ от API.</pre>
+            </div>
+
+            <div class="panel table-panel full-span">
+              <div class="panel-title">
+                <h3>Библиотека материалов</h3>
+                <p>Все модули и уроки, размещённые внутри курсов платформы.</p>
+              </div>
+              <div class="table-wrap" data-table="content"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section resource-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Зачисление студентов</p>
+              <h2>Записи на курсы</h2>
+            </div>
+            <button class="ghost-button" type="button" data-action="list-enrollments">Обновить зачисления</button>
+          </div>
+          <div class="resource-grid">
+            <form class="panel form-panel" data-resource-form="enrollments">
+              <div class="panel-title">
+                <h3>Запись на обучение</h3>
+                <p>Свяжите студента с курсом и отслеживайте этап прохождения программы.</p>
+              </div>
+              <label>ID<input name="id" placeholder="UUID записи" /></label>
+              <label>User ID<input name="user_id" placeholder="UUID пользователя" /></label>
+              <label>Course ID<input name="course_id" placeholder="UUID курса" /></label>
+              <label>Статус<input name="status" placeholder="active" /></label>
+              <label>Прогресс<input name="progress" type="number" min="0" max="100" placeholder="0" /></label>
+              <div class="form-actions">
+                <button type="button" data-submit="create">Зачислить</button>
+                <button type="button" data-submit="get">Открыть запись</button>
+                <button type="button" data-submit="update">Обновить прогресс</button>
+                <button type="button" data-submit="delete" class="danger">Отменить запись</button>
+              </div>
+            </form>
+
+            <div class="panel output-panel">
+              <div class="panel-title">
+                <h3>Результат действия</h3>
+                <p>Ответ сервера по зачислению, статусу обучения и прогрессу студента.</p>
+              </div>
+              <pre data-output="enrollments">Здесь будут показаны детали записи на курс и изменения прогресса.</pre>
+            </div>
+
+            <div class="panel table-panel full-span">
+              <div class="panel-title">
+                <h3>Текущие зачисления</h3>
+                <p>Список студентов, которые проходят обучение на платформе.</p>
+              </div>
+              <div class="table-wrap" data-table="enrollments"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

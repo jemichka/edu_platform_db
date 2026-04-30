@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduPlatform - Аналитика</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="queries">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-badge">EP</span>
+          <span>
+            <strong>EduPlatform</strong>
+            <small>Образовательная платформа</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a href="/">Главная</a>
+          <a href="/users">Пользователи</a>
+          <a href="/courses">Обучение</a>
+          <a href="/events">События</a>
+          <a class="active" href="/queries">Запросы</a>
+        </nav>
+        <a class="swagger-link" href="/api-docs" target="_blank" rel="noreferrer">Swagger</a>
+      </header>
+
+      <main class="layout">
+        <section class="section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Аналитика платформы</p>
+              <h1 class="page-title">Быстрые выборки по обучению и активности</h1>
+            </div>
+          </div>
+          <div class="page-intro panel intro-panel">
+            <p>
+              Здесь собраны быстрые запросы для операционной аналитики: состав участников, наполнение курсов,
+              активность по событиям и статистика зачислений. Это помогает быстро проверять состояние платформы.
+            </p>
+          </div>
+          <div class="queries-grid">
+            <form class="panel query-panel" data-query-form="usersByDomain">
+              <div class="panel-title"><h3>Пользователи по домену</h3><p>Быстро показывает, из каких организаций приходят участники.</p></div>
+              <label>Домен<input name="domain" placeholder="university.ru" required /></label>
+              <button type="submit">Показать выборку</button>
+              <pre data-query-output="usersByDomain">Здесь появится список пользователей с выбранным доменом почты.</pre>
+            </form>
+
+            <form class="panel query-panel" data-query-form="coursesWithTeacher">
+              <div class="panel-title"><h3>Курсы с преподавателем</h3><p>Удобно для проверки учебной нагрузки и закрепления программ.</p></div>
+              <label>Teacher ID<input name="teacher_id" placeholder="Можно оставить пустым" /></label>
+              <button type="submit">Показать выборку</button>
+              <pre data-query-output="coursesWithTeacher">Результат покажет курсы и преподавателей, которые их ведут.</pre>
+            </form>
+
+            <form class="panel query-panel" data-query-form="contentByCourse">
+              <div class="panel-title"><h3>Контент по курсу</h3><p>Проверка наполнения выбранной программы по урокам и модулям.</p></div>
+              <label>Course ID<input name="course_id" placeholder="UUID курса" required /></label>
+              <button type="submit">Показать выборку</button>
+              <pre data-query-output="contentByCourse">Здесь появится последовательность материалов выбранного курса.</pre>
+            </form>
+
+            <form class="panel query-panel" data-query-form="enrollmentStats">
+              <div class="panel-title"><h3>Статистика записей</h3><p>Позволяет быстро оценить спрос на курсы и текущую загрузку.</p></div>
+              <label>Course ID<input name="course_id" placeholder="Можно оставить пустым" /></label>
+              <button type="submit">Показать выборку</button>
+              <pre data-query-output="enrollmentStats">Здесь будет статистика количества студентов по курсам.</pre>
+            </form>
+
+            <form class="panel query-panel" data-query-form="eventsByDate">
+              <div class="panel-title"><h3>События по диапазону дат</h3><p>Подходит для просмотра активности платформы за конкретный период.</p></div>
+              <label>Начало<input name="start_date" type="datetime-local" required /></label>
+              <label>Конец<input name="end_date" type="datetime-local" required /></label>
+              <label>Course ID<input name="course_id" placeholder="Можно оставить пустым" /></label>
+              <button type="submit">Показать выборку</button>
+              <pre data-query-output="eventsByDate">Результат отобразит события, попадающие в выбранный диапазон дат.</pre>
+            </form>
+
+            <form class="panel query-panel" data-query-form="participantsByEvent">
+              <div class="panel-title"><h3>Участники события</h3><p>Показывает аудиторию выбранного вебинара, встречи или интенсива.</p></div>
+              <label>Event ID<input name="event_id" placeholder="UUID события" required /></label>
+              <button type="submit">Показать выборку</button>
+              <pre data-query-output="participantsByEvent">Здесь будет список участников выбранного события с email.</pre>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduPlatform - События</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="events">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-badge">EP</span>
+          <span>
+            <strong>EduPlatform</strong>
+            <small>Образовательная платформа</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a href="/">Главная</a>
+          <a href="/users">Пользователи</a>
+          <a href="/courses">Обучение</a>
+          <a class="active" href="/events">События</a>
+          <a href="/queries">Запросы</a>
+        </nav>
+        <a class="swagger-link" href="/api-docs" target="_blank" rel="noreferrer">Swagger</a>
+      </header>
+
+      <main class="layout">
+        <section class="section resource-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Календарь активности</p>
+              <h1 class="page-title">События</h1>
+            </div>
+            <button class="ghost-button" type="button" data-action="list-events">Обновить календарь</button>
+          </div>
+          <div class="page-intro panel intro-panel">
+            <p>
+              События помогают оживлять обучение: вебинары, практикумы, консультации и встречи с экспертами.
+              В этом разделе собирается расписание и аудитория по каждому мероприятию платформы.
+            </p>
+          </div>
+          <div class="resource-grid">
+            <form class="panel form-panel" data-resource-form="events">
+              <div class="panel-title">
+                <h3>Карточка события</h3>
+                <p>Укажите курс, тему и время проведения, чтобы событие появилось в календаре.</p>
+              </div>
+              <label>ID<input name="id" placeholder="UUID события" /></label>
+              <label>Course ID<input name="course_id" placeholder="UUID курса" /></label>
+              <label>Название<input name="title" placeholder="Открытый вебинар по аналитике" /></label>
+              <label>Описание<textarea name="description" rows="4" placeholder="Кратко опишите формат, тему и ожидаемый результат"></textarea></label>
+              <label>Начало<input name="start_time" type="datetime-local" /></label>
+              <label>Конец<input name="end_time" type="datetime-local" /></label>
+              <label>Локация<input name="location" placeholder="Zoom / аудитория 101" /></label>
+              <div class="form-actions">
+                <button type="button" data-submit="create">Запланировать</button>
+                <button type="button" data-submit="get">Открыть событие</button>
+                <button type="button" data-submit="update">Обновить событие</button>
+                <button type="button" data-submit="delete" class="danger">Отменить событие</button>
+              </div>
+            </form>
+
+            <div class="panel output-panel">
+              <div class="panel-title">
+                <h3>Результат действия</h3>
+                <p>Ответ сервера по созданию, изменению или загрузке события.</p>
+              </div>
+              <pre data-output="events">После работы с календарём здесь появится результат операции по событиям.</pre>
+            </div>
+
+            <div class="panel table-panel full-span">
+              <div class="panel-title">
+                <h3>Календарь платформы</h3>
+                <p>Актуальные события и активности, привязанные к курсам.</p>
+              </div>
+              <div class="table-wrap" data-table="events"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section resource-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Состав аудитории</p>
+              <h2>Участники событий</h2>
+            </div>
+            <button class="ghost-button" type="button" data-action="list-participants">Обновить участников</button>
+          </div>
+          <div class="resource-grid">
+            <form class="panel form-panel" data-resource-form="participants">
+              <div class="panel-title">
+                <h3>Участник события</h3>
+                <p>Добавляйте слушателей и фиксируйте статус их участия в мероприятиях.</p>
+              </div>
+              <label>ID<input name="id" placeholder="UUID участника" /></label>
+              <label>Event ID<input name="event_id" placeholder="UUID события" /></label>
+              <label>User ID<input name="user_id" placeholder="UUID пользователя" /></label>
+              <label>Статус<input name="status" placeholder="confirmed" /></label>
+              <div class="form-actions">
+                <button type="button" data-submit="create">Добавить участника</button>
+                <button type="button" data-submit="get">Открыть запись</button>
+                <button type="button" data-submit="update">Изменить статус</button>
+                <button type="button" data-submit="delete" class="danger">Удалить из события</button>
+              </div>
+            </form>
+
+            <div class="panel output-panel">
+              <div class="panel-title">
+                <h3>Результат действия</h3>
+                <p>Ответ сервера по составу участников и изменениям по записи на событие.</p>
+              </div>
+              <pre data-output="participants">Здесь отобразится ответ API по участникам события и их статусам.</pre>
+            </div>
+
+            <div class="panel table-panel full-span">
+              <div class="panel-title">
+                <h3>Список участников</h3>
+                <p>Все участники мероприятий, зарегистрированные в системе.</p>
+              </div>
+              <div class="table-wrap" data-table="participants"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

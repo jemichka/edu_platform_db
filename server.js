@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
@@ -14,6 +15,7 @@ const app = express();
 app.use(cors({ origin: "http://localhost:8081" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
 // =====================
 // SWAGGER SETUP
@@ -268,11 +270,23 @@ require("./app/routes/enrollments.routes")(app);
 require("./app/routes/events.routes")(app);
 require("./app/routes/event_participants.routes")(app);
 
-// =====================
-// TEST ROUTE
-// =====================
-app.get("/", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({ message: "Welcome to EduPlatform application." });
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+[
+  "users",
+  "courses",
+  "events",
+  "queries",
+].forEach((page) => {
+  app.get(`/${page}`, (req, res) => {
+    res.sendFile(path.join(__dirname, "public", `${page}.html`));
+  });
 });
 
 // =====================
